@@ -1,0 +1,105 @@
+.form-phone{
+    color: #fff;
+    font-size: 20px;
+    /* border: 1px solid #fff; */
+    height: 42px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.text-phone{
+    display: block;
+    text-align: right;
+    width: 60px;
+    padding-right: 20px;
+}
+.input-phone{
+    display: block;
+    position: relative;
+    height: 16px;
+    width: 258px;
+    padding: 11px 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+    transition: .3s;
+}
+.form-code{
+    color: #fff;
+    font-size: 20px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+}
+.text-code{
+    width: 70px;
+    padding-right: 10px;
+}
+.input-code{
+    display: block;
+    position: relative;
+   
+    height: 16px;
+    width: 100px;
+    padding: 11px 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+    transition: .3s;
+}
+.btn-code{
+    border: 1px solid #fff;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    width: 146px;
+    cursor: pointer;
+}
+.btn-code-disabled{
+    border: 1px solid #fff;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    width: 146px;
+    cursor: not-allowed;
+}
+.addDataBtn{
+    margin-top: 10px;
+    border: 1px solid #fff;
+    color: #fff;
+    width: 358px;
+    height: 42px;
+    line-height: 42px;
+    text-align: center;
+    display: block;
+    cursor: pointer;
+}
+.form-name{
+    color: #fff;
+    font-size: 20px;
+    /* border: 1px solid #fff; */
+    height: 42px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.text-name{
+    display: block;
+    text-align: right;
+    width: 60px;
+    padding-right: 20px;
+}
+.input-name{
+    display: block;
+    position: relative;
+    height: 16px;
+    width: 258px;
+    padding: 11px 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    color: #666;
+    transition: .3s;
+}
