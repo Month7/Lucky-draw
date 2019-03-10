@@ -10,12 +10,24 @@ class Manage extends Component{
         super();
         this.loadData = this.loadData.bind(this);
         this.deleteData = this.deleteData.bind(this);
+        this.updateData = this.updateData.bind(this);
         this.state = {
             phones: [],
             names: [],
             sexs: [],
-            workNums: []
+            workNums: [],
+            operations: []
         }
+    }
+    updateData(e){
+        var index = e.target.parentNode.getAttribute('updateIndex');
+        var phones = localStorage.getItem('mobile').split(',')
+        phones[index] = 'update 测试';
+        localStorage.removeItem('mobile');
+        localStorage.setItem('mobile',phones);
+        this.setState({
+            phones: localStorage.getItem('mobile').split(',')
+        })
     }
     // 判断编码类型
     checkEncoding(base64Str){
@@ -34,6 +46,7 @@ class Manage extends Component{
         var names = [];
         var workNums = [];
         var sexs = [];
+        var operationIndex = [];
         for(var i=1;i<data.length;i++){
             var temp = data[i];
             var workNumber = temp[0];
@@ -44,16 +57,19 @@ class Manage extends Component{
             workNums.push(workNumber);
             mobile.push(phoneNum);
             names.push(name);
+            operationIndex.push(i);
         }
         localStorage.setItem('mobile',mobile);
         localStorage.setItem('names',names);
         localStorage.setItem('sexs',sexs);
         localStorage.setItem('workNums',workNums);
+        localStorage.setItem('operationIndex',operationIndex);
         this.setState({
             phones: localStorage.getItem('mobile').split(','),
             names: localStorage.getItem('names').split(','),
             sexs: localStorage.getItem('sexs').split(','),
-            workNums: localStorage.getItem('workNums').split(',')
+            workNums: localStorage.getItem('workNums').split(','),
+            operations: localStorage.getItem('operationIndex').split(',')
         })
     }
     loadData(){
@@ -78,12 +94,13 @@ class Manage extends Component{
         }
     }
     componentDidMount(){
-        if(localStorage.getItem('mobile') != null) {
+        if(localStorage.getItem('mobile') != null && localStorage.getItem('operationIndex') != null) {
             this.setState({
                 phones: localStorage.getItem('mobile').split(',') || [],
                 names: localStorage.getItem('names').split(',') || [],
                 sexs: localStorage.getItem('sexs').split(',') || [],
                 workNums: localStorage.getItem('workNums').split(',') || [],
+                operations: localStorage.getItem('operationIndex').split(',') || []
             })
         }
         
@@ -93,26 +110,44 @@ class Manage extends Component{
         localStorage.removeItem('names');
         localStorage.removeItem('sexs');
         localStorage.removeItem('workNums');
+        localStorage.removeItem('operationIndex');
         this.setState({
             phones: [],
             names: [],
             sexs: [],
-            workNums: []
+            workNums: [],
+            operations: []
         })
     }
     render(){
-        let { phones,names,sexs,workNums } = this.state;
-        const phoneItems = phones.map((phone)=>{
-            return <div className="">{phone}</div>
+        let { phones,names,sexs,workNums,operations } = this.state;
+       
+        const phoneItems = phones.map((phone,index)=>{
+            return <div className="phone-td" key={index}>{phone}</div>
         })
         const nameItems = names.map((name)=>{
-            return <div className="">{name}</div>
+            return <div className="name-td">{name}</div>
         })
         const sexItems = sexs.map((sex)=>{
-            return <div className="">{sex}</div>
+            if(sex == null) {
+                return <div className="sex-td">-</div>
+            } else {
+                return <div className="sex-td">{sex}</div>
+            }
+            
         })
         const workItems = workNums.map((workNum)=>{
-            return <div className="">{workNum}</div>
+            if(workNum == null) {
+                return <div className="work-num-td">-</div>
+            } else {
+                return <div className="work-num-td">{workNum}</div>
+            }
+        })
+        var self = this;
+        const operation = operations.map((peration,index)=>{
+            return (<div key={index} updateIndex={index} className="operation-td">
+                    <span onClick={self.updateData}>修改</span><span>删除</span>
+                   </div>)
         })
         return (
             <div>
@@ -128,11 +163,13 @@ class Manage extends Component{
                         <div className="name-th">姓名{nameItems}</div>
                         <div className="sex-th">性别{sexItems}</div>
                         <div className="phone-th">手机号码{phoneItems}</div>
+                        <div className="operation-th">操作{operation}</div>
                     </div>
                 </div>
                 <div className="manage-bottom">
                     <NavLink exact to="/luckydraw"><div className="manageBtn">进入抽奖页面</div></NavLink>
                 </div>
+                
                 {/* <input type="file" ref="componenyInfo" className="input-file"></input>
                 <div className="btn" onClick={this.loadData}>导入数据</div>
                 <div className="btn">查看参与抽奖人员名单</div>

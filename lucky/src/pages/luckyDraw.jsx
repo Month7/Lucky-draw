@@ -57,15 +57,27 @@ class LuckDraw extends Component{
         var mobile = localStorage.getItem('mobile').split(',');
         var index = mobile.indexOf(this.state.luckyNumber);
         var names = localStorage.getItem('names').split(',');
+        var sexs = localStorage.getItem('sexs').split(',');
+        var workNums = localStorage.getItem('workNums').split(',');
         this.luckyNames.push(names[index]);
         this.luckyNumbers.push(this.state.luckyNumber);
+        var operationIndex = localStorage.getItem('operationIndex').split(',');
+        operationIndex.splice(index,1);
         this.awards.push(this.state.award);
         mobile.splice(index,1);
         names.splice(index,1);
+        sexs.splice(index,1);
+        workNums.splice(index,1);
+        localStorage.removeItem('operationIndex');
+        localStorage.setItem('operationIndex',operationIndex);
         localStorage.removeItem('mobile');
         localStorage.setItem('mobile',mobile);
         localStorage.removeItem('names');
         localStorage.setItem('names',names);
+        localStorage.removeItem('sexs');
+        localStorage.setItem('sexs',sexs);
+        localStorage.removeItem('workNums');
+        localStorage.setItem('workNums',workNums);
         this.setState({
             beginFlag: true,
             endFlag: false,

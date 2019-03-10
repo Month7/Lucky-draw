@@ -15,7 +15,8 @@ class Signin extends Component{
             name: '',
             flag: true,
             VerificationCodeTxt: '获取短信验证码',
-            code: null
+            code: null,
+            realCode: null
         }
     }
     inputCodeChange(e){
@@ -24,7 +25,8 @@ class Signin extends Component{
         })
     }
     addData(){
-        var realCode = localStorage.getItem('code');
+        // var realCode = localStorage.getItem('code');
+        var realCode = this.state.realCode;
         var code = this.state.code;
         if(realCode == code) {
             var oldMobile = localStorage.getItem('mobile');
@@ -32,10 +34,24 @@ class Signin extends Component{
             var names = localStorage.getItem('names').split(',');
             names.push(this.state.name);
             newMobile.push(this.state.phoneNumber);
+            var sexs = localStorage.getItem('sexs').split(',');
+            sexs.push(null);
+            localStorage.removeItem('sexs');
+            localStorage.setItem('sexs',sexs);
+            var operationIndex = localStorage.getItem('operationIndex').split(',');
+            operationIndex.push(1);
+
+            var workNums = localStorage.getItem('workNums').split(',');
+            workNums.push(null);
+            localStorage.removeItem('operationIndex');
+            localStorage.setItem('operationIndex',operationIndex);
+            localStorage.removeItem('workNums');
+            localStorage.setItem('workNums',workNums);
             localStorage.removeItem('mobile');
             localStorage.setItem('mobile',newMobile);
             localStorage.removeItem('names');
             localStorage.setItem('names',names);
+            alert('注册成功!');
         } else {
             return false;
         }
@@ -49,10 +65,14 @@ class Signin extends Component{
     sendVerificationCode(){
         if(this.state.flag == true) {
             var code = getYanzhengma();
-            localStorage.setItem('code',code);
-            var url = '';
+            // localStorage.setItem('code',code);
+            this.setState({
+                realCode: code
+            })
+            var phone = this.state.phoneNumber;
+            var url = ``;
             // http://sms.webchinese.com.cn/Login.shtml
-            $http(url)
+            $http(url);
             var left = 60;
             var self = this;
             var timer = null;
