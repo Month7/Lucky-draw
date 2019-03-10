@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import jschardet from 'jschardet';
 import Papa from 'papaparse';
 import {NavLink} from 'react-router-dom';
+import './manage.css'
 
 
 class Manage extends Component{
@@ -10,7 +11,10 @@ class Manage extends Component{
         this.loadData = this.loadData.bind(this);
         this.deleteData = this.deleteData.bind(this);
         this.state = {
-            
+            phones: [],
+            names: [],
+            sexs: [],
+            workNums: []
         }
     }
     // 判断编码类型
@@ -28,17 +32,29 @@ class Manage extends Component{
     saveData(data){
         var mobile = [];
         var names = [];
+        var workNums = [];
+        var sexs = [];
         for(var i=1;i<data.length;i++){
             var temp = data[i];
+            var workNumber = temp[0];
             var name = temp[1];
+            var sex = temp[2];
             var phoneNum = temp[3];
-            console.log(phoneNum);
-            // phoneNum = parseInt(10,phoneNum);
+            sexs.push(sex);
+            workNums.push(workNumber);
             mobile.push(phoneNum);
             names.push(name);
         }
         localStorage.setItem('mobile',mobile);
         localStorage.setItem('names',names);
+        localStorage.setItem('sexs',sexs);
+        localStorage.setItem('workNums',workNums);
+        this.setState({
+            phones: localStorage.getItem('mobile').split(','),
+            names: localStorage.getItem('names').split(','),
+            sexs: localStorage.getItem('sexs').split(','),
+            workNums: localStorage.getItem('workNums').split(',')
+        })
     }
     loadData(){
         var that = this;
@@ -56,27 +72,72 @@ class Manage extends Component{
                         if( res[ res.length-1 ] == ""){    //去除最后的空行
                             res.pop();
                         }
-                        console.log(res);
                         that.saveData(res)
                     }
             });
         }
     }
+    componentDidMount(){
+        if(localStorage.getItem('mobile') != null) {
+            this.setState({
+                phones: localStorage.getItem('mobile').split(',') || [],
+                names: localStorage.getItem('names').split(',') || [],
+                sexs: localStorage.getItem('sexs').split(',') || [],
+                workNums: localStorage.getItem('workNums').split(',') || [],
+            })
+        }
+        
+    }
     deleteData(){
         localStorage.removeItem('mobile');
         localStorage.removeItem('names');
+        localStorage.removeItem('sexs');
+        localStorage.removeItem('workNums');
+        this.setState({
+            phones: [],
+            names: [],
+            sexs: [],
+            workNums: []
+        })
     }
     render(){
+        let { phones,names,sexs,workNums } = this.state;
+        const phoneItems = phones.map((phone)=>{
+            return <div className="">{phone}</div>
+        })
+        const nameItems = names.map((name)=>{
+            return <div className="">{name}</div>
+        })
+        const sexItems = sexs.map((sex)=>{
+            return <div className="">{sex}</div>
+        })
+        const workItems = workNums.map((workNum)=>{
+            return <div className="">{workNum}</div>
+        })
         return (
             <div>
-                <span className="entranceTxt">
+                <div className="manageHead">
                     管理员端
-                </span>
-                <input type="file" ref="componenyInfo"></input>
+                    <input type="file" ref="componenyInfo" className="input-file"></input>
+                    <div className="manageBtn" onClick={this.loadData}>导入数据</div>
+                    <div className="manageBtn" onClick={this.deleteData}>清除数据</div>
+                </div>
+                <div className="manage-table">
+                    <div className="ma-table-th">
+                        <div className="work-num-th">工号{workItems}</div>
+                        <div className="name-th">姓名{nameItems}</div>
+                        <div className="sex-th">性别{sexItems}</div>
+                        <div className="phone-th">手机号码{phoneItems}</div>
+                    </div>
+                </div>
+                <div className="manage-bottom">
+                    <NavLink exact to="/luckydraw"><div className="manageBtn">进入抽奖页面</div></NavLink>
+                </div>
+                {/* <input type="file" ref="componenyInfo" className="input-file"></input>
                 <div className="btn" onClick={this.loadData}>导入数据</div>
                 <div className="btn">查看参与抽奖人员名单</div>
                 <div className="btn" onClick={this.deleteData}>清除数据</div>
-                <NavLink exact to="/luckydraw"><div className="btn">进入抽奖页面</div></NavLink>
+                <NavLink exact to="/luckydraw"><div className="btn">进入抽奖页面</div></NavLink> */}
                
             </div>
         )

@@ -4,7 +4,10 @@ import backgroundImg from '../imgs/background.jpg'
 import './Index.css';
 import {NavLink} from 'react-router-dom';
 let mainStyle ={
-    height:"750px",
+    position: "absolute",
+    top:"0px",
+    bottom:"0px",
+    height:"100%",
     width:"100%",
     backgroundImage:`url(${backgroundImg})`,
     display:"flex",
@@ -40,7 +43,7 @@ class Index extends Component{
                     <div className="manageEn">
                         <span className="entranceTxt">请输入密码123456</span>
                         <div>
-                            <input type="text" value={this.state.password} onChange={this.passwordChange} className="managePassword"></input>
+                            <input type="text" value={this.state.password} onChange={this.passwordChange} className="managePassword" placeholder="请输入开启密码"></input>
                             <div className="btn" onClick={this.managerSignin}>登入管理员端</div>
                         </div>
                     </div>

@@ -1,0 +1,96 @@
+a{
+    color: #fff!important;
+}
+.input-file{
+    display: block;
+    border: none;
+    color: #fff;
+}
+.manage-table{
+    border: 1px solid #fff;
+    height: 500px;
+    width: 900px;
+    overflow-y: auto;
+}
+.ma-table-th{
+    display: flex;
+    color: #fff;
+    font-size: 16px;
+}
+.work-num-th{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+.work-num-td{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+.name-th{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+.name-td{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+}
+.sex-th{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+.sex-td{
+    width: 15%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+}
+.phone-th{
+    width: 25%;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    text-align: center;
+}
+.phone-td{
+    width: 25%;
+    height: 20px;
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    line-height: 20px;
+    text-align: center;
+}
+.ma-table-td{
+    display: flex;
+    color: #fff;
+    width: 900px;
+}
+.manageHead{
+    color: #fff;
+    display: flex;
+    width: 900px;
+    justify-content: space-between
+}
+.manageBtn{
+    border: 1px solid #fff;
+    cursor: pointer;
+}
+.manage-bottom{
+    border: none;
+    width: 900px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

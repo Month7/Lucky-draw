@@ -12,15 +12,16 @@ import LuckyDraw from './pages/luckyDraw';
 
 import backgroundImg from './imgs/background.jpg'
 let mainStyle ={
-    height:"750px",
+    position: "absolute",
+    top:"0px",
+    bottom:"0px",
+    height:"100%",
     width:"100%",
     backgroundImage:`url(${backgroundImg})`,
     display:"flex",
     justifyContent:"center",
     alignItems:"center"
 }
-
-
 const RootRouter = () => {
     return (
         <BrowserRouter basename="/">
