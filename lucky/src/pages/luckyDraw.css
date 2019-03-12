@@ -15,6 +15,7 @@
     height: 600px;
     width: 450px;
     margin-left: 100px;
+    overflow-y: auto;
 }
 .prize{
     font-size: 20px;
@@ -106,4 +107,11 @@
     text-align: center;
     line-height: 40px;
     border-bottom: 1px solid #fff;
+}
+.award-select{
+    border: none;
+    height: 40px;
+}
+.luckyDrawScroll{
+    color: #fff;
 }

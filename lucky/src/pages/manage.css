@@ -124,3 +124,36 @@ a{
 .operation-td span{
     cursor: pointer;
 }
+
+/**model的样式*/
+.md-table-th{
+    display: flex;
+    color: black;
+    width: 100%;
+}
+.md-work-num-th{
+    width: 20%;
+    text-align: center;
+   
+    
+}
+.md-name-th{
+    width: 20%;
+    text-align: center;
+    
+}
+.md-sex-th{
+    width: 20%;
+    text-align: center;
+  
+}
+.md-phone-th{
+    width: 40%;
+    text-align: center;
+}
+.md-input{
+    width: 100%;
+}
+.md-table-td{
+    display: flex;
+}

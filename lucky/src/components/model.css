@@ -1,0 +1,42 @@
+body{
+    /* opacity:0.4;
+    background: black; */
+    /* opacity:0.4; */
+    /* 因为body用了背景图片好像设置不了遮罩层? */
+    background-color:rgba(255,255,255,0.4)!important;
+}
+.model{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 300px;
+    margin-left: -300px;
+    margin-top: -150px;
+    /* background: #fff; */
+    background: #fff;;
+    z-index: 999;
+    /* opacity:1!important; */
+}
+.md-btns{
+    margin: 20px auto;
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+}
+.md-ensure-btn{
+    border: 1px solid black;
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+}
+.md-cancel-btn{
+    border: 1px solid black;
+    width: 40px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+}

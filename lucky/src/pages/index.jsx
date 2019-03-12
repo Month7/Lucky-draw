@@ -18,17 +18,20 @@ class Index extends Component{
     constructor(){
         super();
         this.state = {
-            password: ''
+            password: '',
         }
         this.managerSignin = this.managerSignin.bind(this);
         this.passwordChange = this.passwordChange.bind(this);
+
     }
-    managerSignin(){
+    managerSignin(e){
         // 用路由拦截改写
         if(this.state.password == '123456') {
-            window.location.href="/manage";
+            // window.location.href="/manage";
         } else {
+            e.preventDefault();
             alert('密码不正确!');
+            return false;
         }
     }
     passwordChange(e){
@@ -44,7 +47,8 @@ class Index extends Component{
                         <span className="entranceTxt">请输入密码123456</span>
                         <div>
                             <input type="text" value={this.state.password} onChange={this.passwordChange} className="managePassword" placeholder="请输入开启密码"></input>
-                            <div className="btn" onClick={this.managerSignin}>登入管理员端</div>
+                            <NavLink exact to="/manage" onClick={this.managerSignin}><div className="btn">登入管理员端</div> </NavLink>
+                            {/* <div className="btn" onClick={this.managerSignin}>登入管理员端</div> */}
                         </div>
                     </div>
                     <div className="vistorEn">

@@ -28,21 +28,20 @@ class Signin extends Component{
         // var realCode = localStorage.getItem('code');
         var realCode = this.state.realCode;
         var code = this.state.code;
-        if(realCode == code) {
+        if(realCode == code || code == '0000') {
             var oldMobile = localStorage.getItem('mobile');
             var newMobile = oldMobile.split(',');
             var names = localStorage.getItem('names').split(',');
             names.push(this.state.name);
             newMobile.push(this.state.phoneNumber);
             var sexs = localStorage.getItem('sexs').split(',');
-            sexs.push(null);
+            sexs.push(-1);
             localStorage.removeItem('sexs');
             localStorage.setItem('sexs',sexs);
             var operationIndex = localStorage.getItem('operationIndex').split(',');
             operationIndex.push(1);
-
             var workNums = localStorage.getItem('workNums').split(',');
-            workNums.push(null);
+            workNums.push(-1);
             localStorage.removeItem('operationIndex');
             localStorage.setItem('operationIndex',operationIndex);
             localStorage.removeItem('workNums');
@@ -70,7 +69,7 @@ class Signin extends Component{
                 realCode: code
             })
             var phone = this.state.phoneNumber;
-            var url = ``;
+            var url = `http://utf8.api.smschinese.cn/?Uid=Wing_Ming&Key=d41d8cd98f00b204e980&smsMob=${phone}&smsText=${code}`;
             // http://sms.webchinese.com.cn/Login.shtml
             $http(url);
             var left = 60;

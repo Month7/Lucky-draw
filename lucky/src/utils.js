@@ -46,3 +46,19 @@ export const $http = (url) => {
         console.log('失败'+err);
     })
 }
+/**
+ * 判断编码类型
+ * @param {*} base64Str 
+ * @param {*} jschardet 
+ */
+export const checkEncoding = (base64Str,jschardet) => {
+    //这种方式得到的是一种二进制串
+    var str = atob(base64Str.split(";base64,")[1]);
+    //要用二进制格式
+    var encoding = jschardet.detect(str);
+    encoding = encoding.encoding;
+    if(encoding == "windows-1252"){    //有时会识别错误（如UTF8的中文二字）
+        encoding = "ANSI";
+    }
+    return encoding;
+}

@@ -3,6 +3,8 @@ import jschardet from 'jschardet';
 import Papa from 'papaparse';
 import {NavLink} from 'react-router-dom';
 import './manage.css'
+import Model from '../components/model'
+// import {checkEncoding} from '../utils'
 
 
 class Manage extends Component{
@@ -11,23 +13,96 @@ class Manage extends Component{
         this.loadData = this.loadData.bind(this);
         this.deleteData = this.deleteData.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.modelNameChange = this.modelNameChange.bind(this);
+        this.modelSexChange = this.modelSexChange.bind(this);
+        this.modelWorkNumChange = this.modelWorkNumChange.bind(this);
+        this.modelPhoneChange = this.modelPhoneChange.bind(this);
+        this.saveModelData = this.saveModelData.bind(this);
+        this.cancelModel = this.cancelModel.bind(this);
+        this.modelDelete = this.modelDelete.bind(this);
         this.state = {
             phones: [],
             names: [],
             sexs: [],
             workNums: [],
-            operations: []
+            operations: [],
+            updateModelShowFlag: false,  //是否显示修改弹窗
+            modelNameValue: '',    // 修改的姓名
+            modelSexValue: '',     // 修改的性别
+            modelWorkNumValue: '', // 修改的工号
+            modelPhoneValue: '',    // 修改的手机号
+            updateIndex: -1          // 要修改的下标 
         }
+    }
+    // 删除
+    modelDelete(e){
+        var index = e.target.parentNode.getAttribute('updateIndex');
+        var phones = localStorage.getItem('mobile').split(',');
+        var names = localStorage.getItem('names').split(',');
+        var sexs = localStorage.getItem('sexs').split(',');
+        var workNums = localStorage.getItem('workNums').split(',');
+        var operationIndex = localStorage.getItem('operationIndex').split(',');
+        phones.splice(index,1);
+        names.splice(index,1);
+        sexs.splice(index,1);
+        workNums.splice(index,1);
+        operationIndex.splice(index,1);
+        localStorage.removeItem('mobile');
+        localStorage.setItem('mobile',phones);
+        localStorage.removeItem('names');
+        localStorage.setItem('names',names);
+        localStorage.removeItem('sexs');
+        localStorage.setItem('sexs',sexs);
+        localStorage.removeItem('workNums');
+        localStorage.setItem('workNums',workNums);
+        localStorage.removeItem('operationIndex');
+        localStorage.setItem('operationIndex',operationIndex);
+        this.setState({
+            phones: localStorage.getItem('mobile').split(','),
+            names: localStorage.getItem('names').split(','),
+            sexs: localStorage.getItem('sexs').split(','),
+            workNums: localStorage.getItem('workNums').split(','),
+            operations: localStorage.getItem('operationIndex').split(',')
+        })
+    }
+    // 姓名修改
+    modelNameChange(e){
+        console.log(e.target.value)
+        this.setState({
+            modelNameValue: e.target.value
+        })
+    }
+    // 性别修改
+    modelSexChange(e){
+        this.setState({
+            modelSexValue: e.target.value
+        })
+    }
+    // 工号修改
+    modelWorkNumChange(e){
+        this.setState({
+            modelWorkNumValue: e.target.value
+        })
+    }
+    // 手机号修改
+    modelPhoneChange(e){
+        this.setState({
+            modelPhoneValue: e.target.value
+        })
     }
     updateData(e){
         var index = e.target.parentNode.getAttribute('updateIndex');
-        var phones = localStorage.getItem('mobile').split(',')
-        phones[index] = 'update 测试';
-        localStorage.removeItem('mobile');
-        localStorage.setItem('mobile',phones);
+        // var phones = localStorage.getItem('mobile').split(',')
         this.setState({
-            phones: localStorage.getItem('mobile').split(',')
+            updateModelShowFlag: true,
+            updateIndex: index
         })
+        // phones[index] = this.state.modelPhoneValue;
+        // localStorage.removeItem('mobile');
+        // localStorage.setItem('mobile',phones);
+        // this.setState({
+        //     phones: localStorage.getItem('mobile').split(',')
+        // })
     }
     // 判断编码类型
     checkEncoding(base64Str){
@@ -119,9 +194,68 @@ class Manage extends Component{
             operations: []
         })
     }
+    saveModelData(){
+        var phones = localStorage.getItem('mobile').split(',');
+        var names = localStorage.getItem('names').split(',');
+        var sexs = localStorage.getItem('sexs').split(',');
+        var workNums = localStorage.getItem('workNums').split(',');
+        var index = this.state.updateIndex;
+        phones[index] = this.state.modelPhoneValue;
+        names[index] = this.state.modelNameValue;
+        sexs[index] = this.state.modelSexValue;
+        workNums[index] = this.state.modelWorkNumValue;
+        localStorage.removeItem('mobile');
+        localStorage.setItem('mobile',phones);
+        localStorage.removeItem('names');
+        localStorage.setItem('names',names);
+        localStorage.removeItem('sexs');
+        localStorage.setItem('sexs',sexs);
+        localStorage.removeItem('workNums');
+        localStorage.setItem('workNums',workNums);
+        this.setState({
+            phones: localStorage.getItem('mobile').split(','),
+            names: localStorage.getItem('names').split(','),
+            sexs: localStorage.getItem('sexs').split(','),
+            workNums: localStorage.getItem('workNums').split(','),
+            updateModelShowFlag: false
+        })
+    }
+    cancelModel(){
+        this.setState({
+            updateModelShowFlag: false
+        })
+    }
     render(){
-        let { phones,names,sexs,workNums,operations } = this.state;
-       
+        let { phones,names,sexs,workNums,operations,updateModelShowFlag } = this.state;
+        let self = this;
+        let updateModelContent = 
+            <div>
+                <div className="md-table-th">
+                    <div className="md-work-num-th">工号</div>
+                    <div className="md-name-th">姓名</div>
+                    <div className="md-sex-th">性别</div>
+                    <div className="md-phone-th">手机号码</div>
+                </div>
+                <div className="md-table-td">
+                    <div className="md-work-num-th">
+                        <input type="text" onChange={self.modelWorkNumChange} className="md-input"/>
+                    </div>
+                    <div className="md-name-th">
+                        <input type="text" onChange={self.modelNameChange} className="md-input"/>
+                    </div>
+                    <div className="md-sex-th">
+                        <input type="text" onChange={self.modelSexChange} className="md-input"/>
+                    </div>
+                    <div className="md-phone-th">
+                        <input type="text" onChange={self.modelPhoneChange} className="md-input" />
+                    </div>
+                </div>
+                <div className="md-btns">
+                    <div className="md-ensure-btn" onClick={self.saveModelData}>确定</div>
+                    <div className="md-cancel-btn" onClick={self.cancelModel}>取消</div>
+                </div>
+            </div>
+        ; 
         const phoneItems = phones.map((phone,index)=>{
             return <div className="phone-td" key={index}>{phone}</div>
         })
@@ -129,7 +263,7 @@ class Manage extends Component{
             return <div className="name-td">{name}</div>
         })
         const sexItems = sexs.map((sex)=>{
-            if(sex == null) {
+            if(sex == -1) {
                 return <div className="sex-td">-</div>
             } else {
                 return <div className="sex-td">{sex}</div>
@@ -137,20 +271,21 @@ class Manage extends Component{
             
         })
         const workItems = workNums.map((workNum)=>{
-            if(workNum == null) {
+            if(workNum == -1) {
                 return <div className="work-num-td">-</div>
             } else {
                 return <div className="work-num-td">{workNum}</div>
             }
         })
-        var self = this;
+     
         const operation = operations.map((peration,index)=>{
             return (<div key={index} updateIndex={index} className="operation-td">
-                    <span onClick={self.updateData}>修改</span><span>删除</span>
+                    <span onClick={self.updateData}>修改</span><span onClick={self.modelDelete}>删除</span>
                    </div>)
         })
         return (
             <div>
+                <Model showFlag={updateModelShowFlag} content={updateModelContent}/>
                 <div className="manageHead">
                     管理员端
                     <input type="file" ref="componenyInfo" className="input-file"></input>
@@ -175,7 +310,7 @@ class Manage extends Component{
                 <div className="btn">查看参与抽奖人员名单</div>
                 <div className="btn" onClick={this.deleteData}>清除数据</div>
                 <NavLink exact to="/luckydraw"><div className="btn">进入抽奖页面</div></NavLink> */}
-               
+                
             </div>
         )
     }

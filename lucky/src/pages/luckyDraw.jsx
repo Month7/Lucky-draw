@@ -6,7 +6,7 @@ class LuckDraw extends Component{
     constructor(){
         super();
         this.state = {
-            luckyNumber: '',
+            luckyNumber: '00000000000',
             beginFlag: true,
             endFlag: false,
             makeSureFlag: false,
@@ -126,12 +126,13 @@ class LuckDraw extends Component{
                         假装有奖品
                     </div>
                     <div className="drawarea">
-                        <select value={this.state.award} onChange={this.awardChange}>
+                        <select value={this.state.award} onChange={this.awardChange} className="award-select">
                             <option value='1'>一等奖</option>
                             <option value='2'>二等奖</option>
                             <option value='3'>三等奖</option>
                         </select>
-                        <input type="text" className="managePassword" value={this.state.luckyNumber} readOnly></input>
+                        <span className="luckyDrawScroll">{this.state.luckyNumber}</span>
+                        {/* <input type="text" className="managePassword" value={this.state.luckyNumber} readOnly></input> */}
                         <span className={beginFlag == true?'whiteBtn':'disabledBtn'} onClick={this.begin}>开始抽奖</span>
                         <span className={endFlag == true?'whiteBtn':'disabledBtn'} onClick={this.stop}>停止抽奖</span>
                         <span className={makeSureFlag == true?'whiteBtn':'disabledBtn' } onClick={this.makeSure}>有效</span>
