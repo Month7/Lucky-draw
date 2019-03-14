@@ -56,6 +56,7 @@
     text-align: center;
     width: 146px;
     cursor: pointer;
+    margin-right: 10px;
 }
 .btn-code-disabled{
     border: 1px solid #fff;
@@ -102,4 +103,14 @@
     font-size: 14px;
     color: #666;
     transition: .3s;
+}
+.warningTxt{
+    font-size: 14px;
+    position: absolute;
+    width: 200px;
+    left: 100%;
+}
+
+.from-container{
+    position: relative;
 }

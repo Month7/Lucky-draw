@@ -1,17 +1,17 @@
 import React,{Component} from 'react';
 import './luckyDraw.css';
-import {getRandomPhone} from '../utils.js'
+import {getRandomPhone,LocalToArr} from '../utils.js'
 
 class LuckDraw extends Component{
     constructor(){
         super();
         this.state = {
             luckyNumber: '00000000000',
-            beginFlag: true,
-            endFlag: false,
-            makeSureFlag: false,
-            cancelFlag: false,
-            award: '1'
+            beginFlag: true,           // 是否按下了开始抽奖
+            endFlag: false,            // 是否按下了停止抽奖
+            makeSureFlag: false,       // 是否按下了有效
+            cancelFlag: false,         // 是否按下了无效
+            award: '1'                 // 奖项
         }
         this.begin = this.begin.bind(this);
         this.stop = this.stop.bind(this);
@@ -19,19 +19,30 @@ class LuckDraw extends Component{
         this.awardChange = this.awardChange.bind(this);
         this.cancel = this.cancel.bind(this);
         this.timer = null;
-        this.mobile = localStorage.getItem('mobile').split(',');
+        this.mobile = LocalToArr(localStorage.getItem('mobile')) || [];
         this.luckyNumbers = [];
         this.luckyNames = [];
         this.awards = [];
     }
+    // 开始抽奖
     begin(){
         if(this.state.beginFlag == true) {
             var self = this;
             var mobile = localStorage.getItem('mobile').split(',');
             this.setState({
                 beginFlag: false,
-                endFlag: true
+                endFlag: true,
+                makeSureFlag: false,
+                cancelFlag: false
             })
+            if(mobile == undefined || mobile.length<0){
+                return false;
+            }
+            var luckyPhone = getRandomPhone(mobile);
+            if(!luckyPhone){
+                alert('已经抽完了!')
+                return false;
+            }
             this.timer = setInterval(()=>{
                 self.setState({
                     luckyNumber: getRandomPhone(mobile)
@@ -42,10 +53,13 @@ class LuckDraw extends Component{
             return false;
         }
     }
+    // 停止抽奖
     stop(){
         if(this.state.endFlag == true) {
             clearInterval(this.timer);
             this.setState({
+                beginFlag: false,
+                endFlag: false,
                 makeSureFlag: true,
                 cancelFlag: true
             })
@@ -53,6 +67,7 @@ class LuckDraw extends Component{
             return false;
         }
     }
+    // 有效
     makeSure(){
         var mobile = localStorage.getItem('mobile').split(',');
         var index = mobile.indexOf(this.state.luckyNumber);
@@ -85,6 +100,7 @@ class LuckDraw extends Component{
             cancelFlag: false
         });
     }
+    // 无效
     cancel(){
         this.setState({
             beginFlag: true,

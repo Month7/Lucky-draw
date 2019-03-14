@@ -14,6 +14,9 @@ export const getRandom = (max,min) => {
  */
 export const getRandomPhone = (mobile) => {
     var length = mobile.length - 1;
+    if(length <-1){
+        return false;
+    }
     var luckyNum = getRandom(length,0);
     var luckyPhone = mobile[luckyNum];
     return luckyPhone;
@@ -61,4 +64,58 @@ export const checkEncoding = (base64Str,jschardet) => {
         encoding = "ANSI";
     }
     return encoding;
+
+}
+/**
+ * @description 验证手机号码格式是否正确
+ * @param {手机号} phoneNum 
+ */
+export const checkPhoneNum = (phoneNum) => {
+    var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+    if(!reg.test(phoneNum)){
+        return false;
+    }
+    return true;
+}
+/**
+ * @description 验证名字不为空且不包含敏感词汇
+ * @param {要验证的姓名} name 
+ */
+export const checkName = (name) => {
+    if(name == undefined || name == '' || name == null || name == '小熊维尼') {
+        return false;
+    }
+    return true;
+}
+/**
+ * @description 验证验证码格式正确
+ * @param {*} code 
+ */
+export const checkCode = (code) => {
+    if(!code){
+        return false;
+    }
+    if(code.length!=4){
+        return false;
+    }
+    return true;
+}
+/**
+ * 对存在localStronge上的数据进行格式化处理
+ * @param {} data 
+ */
+export const LocalToArr = (data) => {
+    if(data == null || data == undefined){
+        return undefined;
+    }
+    if(data == ''){
+        return [];
+    }
+    data = data.split(',');
+    for(var i=0;i<data.length;i++){
+        if(data[i] == ''){
+            data.splice(i,1);
+        }
+    }
+    return data;
 }

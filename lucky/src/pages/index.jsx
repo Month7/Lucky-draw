@@ -3,6 +3,7 @@ import React,{Component} from 'react'
 import backgroundImg from '../imgs/background.jpg'
 import './Index.css';
 import {NavLink} from 'react-router-dom';
+import {LocalToArr} from '../utils'
 let mainStyle ={
     position: "absolute",
     top:"0px",
@@ -22,7 +23,7 @@ class Index extends Component{
         }
         this.managerSignin = this.managerSignin.bind(this);
         this.passwordChange = this.passwordChange.bind(this);
-
+        // typyInFlag
     }
     managerSignin(e){
         // 用路由拦截改写
@@ -39,6 +40,20 @@ class Index extends Component{
             password: e.target.value
         })
     }
+    componentDidMount(){
+        var mobile = LocalToArr(localStorage.getItem('mobile')) || [];
+        var names = LocalToArr(localStorage.getItem('names')) || [];
+        var operationIndex = LocalToArr(localStorage.getItem('operationIndex')) || [];
+        var sexs = LocalToArr(localStorage.getItem('sexs')) || [];
+        var workNums = LocalToArr(localStorage.getItem('workNums')) || [];
+        localStorage.clear();
+        localStorage.setItem('mobile',mobile);
+        localStorage.setItem('names',names);
+        localStorage.setItem('operationIndex',operationIndex);
+        localStorage.setItem('sexs',sexs);
+        localStorage.setItem('workNums',workNums);
+        localStorage.setItem('typeInFlag','1')    // 是否可以录入 1不可以 0可以
+    }
     render(){
         return (
             <div style={mainStyle}>
@@ -46,14 +61,14 @@ class Index extends Component{
                     <div className="manageEn">
                         <span className="entranceTxt">请输入密码123456</span>
                         <div>
-                            <input type="text" value={this.state.password} onChange={this.passwordChange} className="managePassword" placeholder="请输入开启密码"></input>
+                            <input type="password" value={this.state.password} onChange={this.passwordChange} className="managePassword" placeholder="请输入开启密码"></input>
                             <NavLink exact to="/manage" onClick={this.managerSignin}><div className="btn">登入管理员端</div> </NavLink>
                             {/* <div className="btn" onClick={this.managerSignin}>登入管理员端</div> */}
                         </div>
                     </div>
                     <div className="vistorEn">
                         <div>
-                            <NavLink exact to="/signin"><div className="btn">登入用户端</div> </NavLink>
+                            <NavLink exact to="/signin"><div className="btn">用户注册</div> </NavLink>
                         </div>
                     </div>
                 </div>

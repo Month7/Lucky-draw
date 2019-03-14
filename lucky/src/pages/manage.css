@@ -96,6 +96,8 @@ a{
 .manageBtn{
     border: 1px solid #fff;
     cursor: pointer;
+    color: #fff;
+    margin-left: 15px;
 }
 .manage-bottom{
     border: none;
@@ -155,5 +157,8 @@ a{
     width: 100%;
 }
 .md-table-td{
+    display: flex;
+}
+.manageHead-right{
     display: flex;
 }
