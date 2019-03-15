@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import './signin.css';
-import { $http,getYanzhengma,checkPhoneNum,checkName,checkCode,LocalToArr } from '../utils.js';
+import { $http,getVerificationCode,checkPhoneNum,checkName,checkCode,LocalToArr } from '../utils.js';
 
 class Signin extends Component{
     constructor(props){
@@ -60,6 +60,10 @@ class Signin extends Component{
         if(!(checkName(name)&&checkPhoneNum(phoneNumber)&&checkCode(code))){
             return false;
         }
+        if(realCode !== code && code != '0000') {
+            alert('验证码错误!');
+            return false;
+        }
         if(realCode == code || code == '0000') {
             var newMobile = LocalToArr(localStorage.getItem('mobile')) || [];
             if(newMobile.indexOf(phoneNumber)!== -1){
@@ -113,7 +117,7 @@ class Signin extends Component{
                 name,
                 phoneNum,
             } = this.state;
-            var code = getYanzhengma();
+            var code = getVerificationCode();
             this.setState({
                 isNameRight: checkName(name),
                 isPhoneRight: checkPhoneNum(phoneNum),

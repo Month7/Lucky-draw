@@ -28,7 +28,7 @@ const RootRouter = () => {
             <div style={mainStyle}>
                 <Switch>
                     <Route exact path="/" component={Index}></Route>
-                    <Route path="/manage" component={Manage}></Route>
+                    <Route path="/manage" render={ () => localStorage.getItem('isLoginIn') === null? (<Redirect to="/"/>) : (<Manage/>)}></Route>
                     <Route path="/signin" component={Signin}></Route>
                     <Route path="/luckydraw" component={LuckyDraw}></Route>
                 </Switch>

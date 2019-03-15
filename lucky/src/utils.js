@@ -24,7 +24,7 @@ export const getRandomPhone = (mobile) => {
 /**
  * @description 获得4位随机验证码
  */
-export const getYanzhengma = () => {
+export const getVerificationCode = () => {
     var res = '';
     for(var i=0;i<4;i++){
         var random = parseInt(Math.random()*10);

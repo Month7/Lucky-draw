@@ -4,7 +4,7 @@ import Papa from 'papaparse';
 import {NavLink} from 'react-router-dom';
 import './manage.css'
 import Model from '../components/model'
-import {LocalToArr} from '../utils'
+import {LocalToArr,checkPhoneNum,checkName} from '../utils'
 
 
 class Manage extends Component{
@@ -20,7 +20,7 @@ class Manage extends Component{
         this.saveModelData = this.saveModelData.bind(this);
         this.cancelModel = this.cancelModel.bind(this);
         this.modelDelete = this.modelDelete.bind(this);
-        this.stopTypeIn = this.stopTypeIn.bind(this);        // 停止后台录入
+        this.Toggle = this.Toggle.bind(this);        // 停止后台录入
         this.state = {
             phones: [],
             names: [],
@@ -36,11 +36,15 @@ class Manage extends Component{
             typeInFlag: localStorage.getItem('typeInFlag')   
         }
     }
-    stopTypeIn(){
+    // 控制是否允许注册
+    Toggle(){
         var typeInFlag = localStorage.getItem('typeInFlag')
         if(typeInFlag == '1') {
             typeInFlag = 0
         } else if(typeInFlag == '0'){
+            typeInFlag = 1
+        } else if(typeInFlag == null) {
+            
             typeInFlag = 1
         }
         localStorage.removeItem('typeInFlag');
@@ -104,18 +108,13 @@ class Manage extends Component{
             modelPhoneValue: e.target.value
         })
     }
-    // 修改表格数据
+    // 点击修改表格数据
     updateData(e){
         var index = e.target.parentNode.getAttribute('updateIndex');
         var defaultPhone = localStorage.getItem('mobile').split(',')[index];
         var defaultName = localStorage.getItem('names').split(',')[index];
         var defaultSex = localStorage.getItem('sexs').split(',')[index];
-        var defaultWorkNum = localStorage.getItem('workNums').split(',')[index];
-        // phones: localStorage.getItem('mobile').split(','),
-        // names: localStorage.getItem('names').split(','),
-        // sexs: localStorage.getItem('sexs').split(','),
-        // workNums: localStorage.getItem('workNums').split(','),
-        // operations: localStorage.getItem('operationIndex').split(',')
+        var defaultWorkNum = localStorage.getItem('workNums').split(',')[index];        
         this.setState({
             updateModelShowFlag: true,
             updateIndex: index,
@@ -124,12 +123,7 @@ class Manage extends Component{
             modelWorkNumValue: defaultWorkNum, 
             modelPhoneValue: defaultPhone,    
         })
-        // phones[index] = this.state.modelPhoneValue;
-        // localStorage.removeItem('mobile');
-        // localStorage.setItem('mobile',phones);
-        // this.setState({
-        //     phones: localStorage.getItem('mobile').split(',')
-        // })
+  
     }
     // 判断编码类型
     checkEncoding(base64Str){
@@ -223,6 +217,7 @@ class Manage extends Component{
                 sexs: LocalToArr(localStorage.getItem('sexs')),
                 workNums: LocalToArr(localStorage.getItem('workNums')), 
                 operations: LocalToArr(localStorage.getItem('operationIndex')),
+                typeInFlag: localStorage.getItem('typeInFlag')
             })
         }
         
@@ -247,10 +242,24 @@ class Manage extends Component{
         var sexs = localStorage.getItem('sexs').split(',');
         var workNums = localStorage.getItem('workNums').split(',');
         var index = this.state.updateIndex;
-        phones[index] = this.state.modelPhoneValue;
-        names[index] = this.state.modelNameValue;
-        sexs[index] = this.state.modelSexValue;
-        workNums[index] = this.state.modelWorkNumValue;
+        var {
+            modelPhoneValue,
+            modelNameValue,
+            modelSexValue,
+            modelWorkNumValue
+        } = this.state;
+        if(!checkName(modelNameValue)){
+            alert('姓名中包含敏感词汇或为空!');
+            return false;
+        }
+        if(!checkPhoneNum(modelPhoneValue)){
+            alert('手机号码格式不正确!');
+            return false;
+        }
+        phones[index] = modelPhoneValue
+        names[index] = modelNameValue
+        sexs[index] = modelSexValue
+        workNums[index] = modelWorkNumValue
         localStorage.removeItem('mobile');
         localStorage.setItem('mobile',phones);
         localStorage.removeItem('names');
@@ -366,7 +375,7 @@ class Manage extends Component{
                 </div>
                 <div className="manage-bottom">
                     <NavLink exact to="/luckydraw"><div className="manageBtn">进入抽奖页面</div></NavLink>
-                    <div className="manageBtn" onClick={this.stopTypeIn}>{typeInBtnTxt}</div>
+                    <div className="manageBtn" onClick={this.Toggle}>{typeInBtnTxt}</div>
                 </div>
                 
                 {/* <input type="file" ref="componenyInfo" className="input-file"></input>

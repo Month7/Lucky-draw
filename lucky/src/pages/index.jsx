@@ -28,6 +28,7 @@ class Index extends Component{
     managerSignin(e){
         // 用路由拦截改写
         if(this.state.password == '123456') {
+            localStorage.setItem('isLoginIn',true);
             // window.location.href="/manage";
         } else {
             e.preventDefault();
@@ -52,14 +53,14 @@ class Index extends Component{
         localStorage.setItem('operationIndex',operationIndex);
         localStorage.setItem('sexs',sexs);
         localStorage.setItem('workNums',workNums);
-        localStorage.setItem('typeInFlag','1')    // 是否可以录入 1不可以 0可以
+        // localStorage.setItem('typeInFlag','1')    // 是否可以录入 1不可以 0可以
     }
     render(){
         return (
             <div style={mainStyle}>
                 <div className="entrance">
                     <div className="manageEn">
-                        <span className="entranceTxt">请输入密码123456</span>
+                        {/* <span className="entranceTxt">请输入密码123456</span> */}
                         <div>
                             <input type="password" value={this.state.password} onChange={this.passwordChange} className="managePassword" placeholder="请输入开启密码"></input>
                             <NavLink exact to="/manage" onClick={this.managerSignin}><div className="btn">登入管理员端</div> </NavLink>
